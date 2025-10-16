@@ -2,9 +2,8 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     container_name: chatbot-backend
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     volumes:
@@ -13,9 +12,8 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.frontend
     container_name: chatbot-frontend
-    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
     ports:
       - "8501:8501"
     depends_on:
