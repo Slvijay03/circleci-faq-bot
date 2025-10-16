@@ -20,7 +20,7 @@ jobs:
 
       - run:
           name: Run backend tests
-          command: docker-compose run app python test_app.py  # <- updated service name
+          command: docker-compose run backend python test_app.py  # <- updated service name
 
   push_to_dockerhub:
     docker:
