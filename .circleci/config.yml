@@ -20,12 +20,13 @@ jobs:
 
       - run:
           name: Run backend tests
-          command: docker-compose run backend python test_app.py
+          command: docker-compose run app python test_app.py  # <- updated service name
 
   push_to_dockerhub:
     docker:
-      - image: cimg/base:stable  # base image with docker CLI tools
+      - image: cimg/base:stable
     working_directory: ~/repo
+
     steps:
       - checkout
       - setup_remote_docker
