@@ -5,15 +5,45 @@ jobs:
     docker:
       - image: cimg/python:3.11
     working_directory: ~/repo
+
     steps:
       - checkout
       - setup_remote_docker
+
       - run:
           name: Install dependencies
           command: pip install -r requirements.txt
+
       - run:
           name: Build Docker containers
           command: docker-compose build
+
       - run:
-          name: Run tests
+          name: Run backend tests
           command: docker-compose run backend python test_app.py
+
+  push_to_dockerhub:
+    docker:
+      - image: cimg/base:stable  # base image with docker CLI tools
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Build Docker image
+          command: docker build -t $DOCKERHUB_USERNAME/faq-chatbot:latest .
+
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker push $DOCKERHUB_USERNAME/faq-chatbot:latest
+
+workflows:
+  build_and_push:
+    jobs:
+      - build
+      - push_to_dockerhub:
+          requires:
+            - build
