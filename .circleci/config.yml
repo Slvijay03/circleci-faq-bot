@@ -33,7 +33,7 @@ jobs:
 
       - run:
           name: Build Docker image
-          command: docker build -t $DOCKERHUB_USERNAME/faq-chatbot:latest -f Dockerfile.backend .
+          command: docker build -t $DOCKERHUB_USERNAME/faq-chatbot:latest -f dockerfile.backend .
 
       - run:
           name: Push to Docker Hub
