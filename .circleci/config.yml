@@ -22,6 +22,12 @@ jobs:
           name: Run backend tests
           command: docker-compose run backend python test_app.py
 
+      - run:
+          name: Run Container
+          command: |
+            docker run -d --name chatbot-container -p 8080:8080 $DOCKERHUB_USERNAME/faq-chatbot:latest
+            echo "Container is running on port 8080"
+
   push_to_dockerhub:
     docker:
       - image: cimg/base:stable
